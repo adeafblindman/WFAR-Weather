@@ -58,7 +58,9 @@
 
 <script src="data.js"></script>
 <script>
-let config = Store.load();
+(async function () {
+
+let config = await Store.init();
 Store.rollForward(config);
 config = Store.load();
 Store.applyTheme(config.theme);
@@ -184,6 +186,8 @@ setInterval(()=>{
 
 renderPlanet();
 restartAuto();
+
+})();
 </script>
 </body>
 </html>

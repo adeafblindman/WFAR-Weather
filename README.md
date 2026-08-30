@@ -29,6 +29,13 @@ console for managing planets, weather, and colors.
   local storage — keep them reasonably small, since browsers typically cap
   local storage around 5–10MB total.
 
+## Deploying to GitHub Pages
+1. Push all four files to the root of a repo (or a `/docs` folder, matching
+   whatever GitHub Pages source you configure).
+2. In the repo, go to **Settings → Pages**, set the source branch/folder, save.
+3. Visit `https://<username>.github.io/<repo>/` for the outlook,
+   and `.../admin.html` for the console.
+
 ## How the daily rollover works
 Each planet stores 7 forecast days keyed to real calendar dates. On every page
 load (and every 60 seconds while the tab stays open), the page compares
@@ -52,21 +59,48 @@ Oasis, Special). The Planets tab's biome dropdown is grouped the same way.
 GitHub Pages only serves static files — there's no server or shared database.
 So `admin.html` saves changes to **your browser's `localStorage`**, meaning:
 - Changes you make are only visible to you, in that browser, immediately.
-- Other visitors keep seeing the defaults baked into `data.js`.
+- Other visitors keep seeing whatever `config.json` (see below) or the
+  defaults baked into `data.js` resolve to.
 
-To publish changes for everyone:
-1. In the admin console, go to **Backup → Export Config**. This downloads a
-   JSON file with your current theme + planets + forecasts.
+To publish changes for everyone, there are two options:
+
+### Option A — drop a `config.json` next to the pages (easiest)
+On every load, both `index.html` and `admin.html` try to fetch a file named
+`config.json` from the same folder they're served from, over http/https.
+If it exists and looks like a valid export (has a `planets` array), it's
+used as the active config for that visitor — no rebuild or code edit
+needed. If it's missing, can't be reached (e.g. blocked by CORS, or the
+page was opened via `file://` instead of a server), or isn't valid JSON,
+the page silently falls back to that browser's `localStorage` / the
+built-in defaults, so nothing breaks for visitors if you don't add one.
+
+1. In the admin console, go to **Backup → Export Config** to download your
+   current theme + planets + forecasts as JSON.
+2. Rename the downloaded file to exactly `config.json`.
+3. Commit and push it to the same folder as `index.html` / `admin.html`
+   (repo root, or your `/docs` folder — wherever GitHub Pages serves from).
+4. Every visitor now sees this config on load, regardless of their own
+   `localStorage`. Note the exported `planets` include dated `forecast`
+   entries frozen at export time — replace `config.json` periodically (or
+   drop the `forecast` arrays and let the page regenerate fresh ones) if
+   you don't want a stale forecast.
+
+### Option B — bake it into `data.js` (no extra file to keep updating)
+1. Export config the same way as above.
 2. Open that JSON and copy the `theme` object and `planets` array over into
-   `DEFAULT_THEME` and `DEFAULT_PLANETS` in `data.js` (note: forecasts inside
-   the exported `planets` include a `forecast` array with dated entries —
-   you'll likely want to drop those dated entries and let `data.js` regenerate
+   `DEFAULT_THEME` and `DEFAULT_PLANETS` in `data.js` (again, you'll likely
+   want to drop the dated `forecast` entries and let `data.js` regenerate
    fresh dates, unless you specifically want to freeze a forecast).
-3. Commit and push `data.js`. Every visitor without their own local
-   customizations will now see the update.
+3. Commit and push `data.js`. Every visitor without a `config.json` and
+   without their own local customizations will now see the update.
+
+If both a `config.json` and edits to `data.js`'s defaults exist, `config.json`
+wins — it's checked first on every load.
 
 The admin console also supports **Import Config**, useful for moving your
-local setup between browsers/devices, and **Reset Everything to Defaults**.
+local setup between browsers/devices, and **Reset Everything to Defaults**
+(which reverts to `data.js`'s built-in defaults / `localStorage`, not to
+whatever `config.json` says — reload the page to re-apply `config.json`).
 
 ## Customizing biomes / weather pools
 Open `data.js` and edit the `BIOMES` object — each biome has a `pool` of

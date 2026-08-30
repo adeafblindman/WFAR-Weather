@@ -6,6 +6,14 @@
 const STORAGE_KEY = "sem_weather_config_v1";
 const DATE_KEY = "sem_weather_lastdate_v1";
 
+/* If a file named config.json sits alongside index.html / admin.html
+   (same folder, served over http/https), it's fetched on every page
+   load and applied as the active config — this lets a site owner
+   publish one config for every visitor without hand-editing data.js.
+   If it's missing, unreachable, or malformed, the page silently falls
+   back to this browser's localStorage / the built-in defaults below. */
+const CONFIG_FILE = "config.json";
+
 /* ---------- Biome definitions ----------
    Modeled on the real Helldivers 2 biome roster (see
    https://helldivers.wiki.gg/wiki/Biomes), grouped by archetype.
@@ -527,6 +535,29 @@ function daysBetween(a, b) {
   return Math.round((db - da) / 86400000);
 }
 
+/* Fills in any fields missing from an older/foreign config export
+   (used for both localStorage data and a fetched config.json) so the
+   rest of the app can rely on every field being present. Returns
+   whether anything had to be patched. */
+function normalizeConfig(raw) {
+  let dirty = false;
+  if (!raw.settings) { raw.settings = { ...DEFAULT_SETTINGS }; dirty = true; }
+  if (!raw.icons) { raw.icons = { ...DEFAULT_CATEGORY_ICONS }; dirty = true; }
+  if (!raw.theme) { raw.theme = { ...DEFAULT_THEME }; dirty = true; }
+  (raw.planets || []).forEach((p) => {
+    if (!BIOMES[p.biome]) { p.biome = "desert-dunes"; dirty = true; }
+    if (!p.forecast || !p.forecast.length) {
+      p.forecast = generateForecast(p.biome, todayIso(), 7);
+      dirty = true;
+    }
+    p.forecast.forEach((d) => {
+      if (d.low === undefined) { d.low = d.temp - 10; dirty = true; }
+      if (d.risk === undefined) { d.risk = 20; dirty = true; }
+    });
+  });
+  return dirty;
+}
+
 /* ---------- Store ---------- */
 const Store = {
   load() {
@@ -541,20 +572,42 @@ const Store = {
       this.save(raw);
     } else {
       // Migrate configs saved by earlier versions of this app.
-      let dirty = false;
-      if (!raw.settings) { raw.settings = { ...DEFAULT_SETTINGS }; dirty = true; }
-      if (!raw.icons) { raw.icons = { ...DEFAULT_CATEGORY_ICONS }; dirty = true; }
-      if (!raw.theme) { raw.theme = { ...DEFAULT_THEME }; dirty = true; }
-      raw.planets.forEach((p) => {
-        if (!BIOMES[p.biome]) { p.biome = "desert-dunes"; dirty = true; }
-        (p.forecast || []).forEach((d) => {
-          if (d.low === undefined) { d.low = d.temp - 10; dirty = true; }
-          if (d.risk === undefined) { d.risk = 20; dirty = true; }
-        });
-      });
-      if (dirty) this.save(raw);
+      if (normalizeConfig(raw)) this.save(raw);
     }
     return raw;
+  },
+
+  /* Tries to fetch config.json from beside the current page. Returns
+     the parsed config on success, or null if it doesn't exist, fails
+     to load (e.g. opened via file:// with no server), or isn't a
+     valid config (no planets array). Never throws. */
+  async fetchRemoteConfig() {
+    try {
+      const res = await fetch(CONFIG_FILE, { cache: "no-store" });
+      if (!res.ok) return null;
+      const raw = await res.json();
+      if (!raw || !Array.isArray(raw.planets) || raw.planets.length === 0) return null;
+      normalizeConfig(raw);
+      return raw;
+    } catch (e) {
+      return null;
+    }
+  },
+
+  /* Preferred entry point for page startup: prefers a config.json
+     dropped next to this page (so every visitor sees the same
+     published config), and otherwise falls back to this browser's
+     localStorage / the built-in defaults, exactly like load(). When
+     config.json is found, it's also written to localStorage so the
+     rest of the app (rollForward, admin edits, etc.) has a single
+     consistent source to read/write during this session. */
+  async init() {
+    const remote = await this.fetchRemoteConfig();
+    if (remote) {
+      this.save(remote);
+      return remote;
+    }
+    return this.load();
   },
 
   buildDefault() {

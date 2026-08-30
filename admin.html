@@ -182,7 +182,9 @@
 
 <script src="data.js"></script>
 <script>
-let config = Store.load();
+(async function () {
+
+let config = await Store.init();
 
 /* ---------- Tabs ---------- */
 document.querySelectorAll(".tab-btn").forEach(btn=>{
@@ -595,6 +597,8 @@ refreshForecastPlanetSelect();
 document.getElementById("rotationSeconds").value = (config.settings && config.settings.rotationSeconds) || 10;
 renderGlobalBgPreview();
 renderIconGrid();
+
+})();
 </script>
 </body>
 </html>
