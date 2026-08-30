@@ -29,13 +29,6 @@ console for managing planets, weather, and colors.
   local storage — keep them reasonably small, since browsers typically cap
   local storage around 5–10MB total.
 
-## Deploying to GitHub Pages
-1. Push all four files to the root of a repo (or a `/docs` folder, matching
-   whatever GitHub Pages source you configure).
-2. In the repo, go to **Settings → Pages**, set the source branch/folder, save.
-3. Visit `https://<username>.github.io/<repo>/` for the outlook,
-   and `.../admin.html` for the console.
-
 ## How the daily rollover works
 Each planet stores 7 forecast days keyed to real calendar dates. On every page
 load (and every 60 seconds while the tab stays open), the page compares
