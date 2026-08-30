@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SEMD // Planetary Weather Outlook</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="mark"></div>
+    <div class="brand-text">
+      <div class="t1">SUPER EARTH METEOROLOGICAL DIVISION</div>
+      <div class="t2">PLANETARY OUTLOOK NETWORK</div>
+    </div>
+  </div>
+  <div class="ticker-wrap"><div class="ticker" id="ticker">LOADING FEED…</div></div>
+  <a class="admin-link" href="admin.html">COMMAND ACCESS</a>
+</div>
+
+<div class="wrap">
+
+  <div class="forecast-card" id="forecastCard">
+    <div class="card-titlebar">
+      <div class="title-block">
+        <div class="title-line">
+          <span class="planet-icon" id="planetIcon"></span>
+          <h1 id="planetName">—</h1>
+        </div>
+        <div class="sub">
+          <span id="biomeTag">—</span>
+          <span class="faction" id="factionTag">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-region">
+      <div class="scroll-inner">
+        <div class="days-grid" id="daysGrid"></div>
+        <div class="lows-strip" id="lowsStrip"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls-row">
+    <button class="nav-btn" id="prevBtn" aria-label="Previous planet">‹</button>
+    <div class="dots" id="dots"></div>
+    <button class="nav-btn" id="nextBtn" aria-label="Next planet">›</button>
+  </div>
+
+  <div class="footer">
+    <span>DATA GENERATED LOCALLY // FOR STRATEGIC PLANNING PURPOSES ONLY</span>
+    <span id="clock">—</span>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script>
+let config = Store.load();
+Store.rollForward(config);
+config = Store.load();
+Store.applyTheme(config.theme);
+
+let planets = config.planets.filter(p => p.displayed !== false);
+if (planets.length === 0) planets = config.planets; // fallback so page is never empty
+let current = 0;
+let autoTimer = null;
+
+const DAY_NAMES = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+
+function renderDots(){
+  const dotsEl = document.getElementById("dots");
+  dotsEl.innerHTML = "";
+  planets.forEach((p,i)=>{
+    const d = document.createElement("button");
+    d.className = "dot" + (i===current ? " active" : "");
+    d.title = p.name;
+    d.addEventListener("click", ()=> goTo(i));
+    dotsEl.appendChild(d);
+  });
+}
+
+function applyCardBackground(p){
+  const card = document.getElementById("forecastCard");
+  const bgImg = p.backgroundImage || config.theme.backgroundImage;
+  if (bgImg){
+    card.style.backgroundImage = `linear-gradient(180deg, rgba(4,8,20,.45), rgba(4,8,20,.18) 42%, rgba(4,8,20,.55)), url("${bgImg}")`;
+    card.classList.add("no-glow");
+  } else {
+    card.style.backgroundImage = "";
+    card.classList.remove("no-glow");
+  }
+}
+
+function renderPlanet(){
+  const p = planets[current];
+  if (!p) return;
+
+  document.getElementById("planetIcon").innerHTML = renderIconHTML(p.icon, "");
+  document.getElementById("planetName").textContent = p.name.toUpperCase();
+  document.getElementById("biomeTag").textContent = ((BIOMES[p.biome]||{}).label || p.biome).toUpperCase();
+  document.getElementById("factionTag").textContent = (p.faction || "UNKNOWN").toUpperCase() + " ACTIVITY";
+  applyCardBackground(p);
+
+  const todayStr = todayIso();
+  const grid = document.getElementById("daysGrid");
+  const strip = document.getElementById("lowsStrip");
+  grid.innerHTML = "";
+  strip.innerHTML = "";
+
+  p.forecast.forEach((day)=>{
+    const dt = new Date(day.date + "T00:00:00");
+    const isToday = day.date === todayStr;
+
+    const col = document.createElement("div");
+    col.className = "day-col";
+    const riskClass = day.severity === "Extreme" ? " hazard" : "";
+    col.innerHTML = `
+      <div class="dname${isToday ? " today":""}">${isToday ? "TODAY" : DAY_NAMES[dt.getDay()]}</div>
+      <div class="ddate">${dt.toLocaleDateString(undefined,{month:"short",day:"numeric"})}</div>
+      <div class="dicon">${renderIconHTML(iconFor(day.condition, config))}</div>
+      <div class="dcond">${day.condition}</div>
+      <div class="drisk${riskClass}">${day.risk}%</div>
+      <div class="dhigh">${day.temp}°</div>
+    `;
+    grid.appendChild(col);
+
+    const lowEl = document.createElement("div");
+    lowEl.className = "dlow";
+    lowEl.textContent = day.low + "°";
+    strip.appendChild(lowEl);
+  });
+
+  renderDots();
+}
+
+function goTo(i){
+  current = ((i % planets.length) + planets.length) % planets.length;
+  renderPlanet();
+  restartAuto();
+}
+function next(){ goTo(current+1); }
+function prev(){ goTo(current-1); }
+
+function restartAuto(){
+  if (autoTimer) clearInterval(autoTimer);
+  const secs = (config.settings && config.settings.rotationSeconds) || 10;
+  autoTimer = setInterval(next, Math.max(3, secs) * 1000);
+}
+
+document.getElementById("nextBtn").addEventListener("click", next);
+document.getElementById("prevBtn").addEventListener("click", prev);
+
+function tickClock(){
+  const now = new Date();
+  document.getElementById("clock").textContent = "LOCAL: " + now.toLocaleString();
+}
+setInterval(tickClock, 1000);
+tickClock();
+
+function buildTicker(){
+  const bits = planets.map(p=>{
+    const t = p.forecast[0];
+    return `${p.name.toUpperCase()}: ${t.condition.toUpperCase()} ${t.temp}°/${t.low}° [${t.risk}% RISK]`;
+  });
+  document.getElementById("ticker").textContent = bits.join("     //     ");
+}
+buildTicker();
+
+// Re-check for a midnight day-advance while the tab stays open.
+setInterval(()=>{
+  const res = Store.rollForward(config);
+  if (res.advanced > 0){
+    config = Store.load();
+    planets = config.planets.filter(p => p.displayed !== false);
+    if (planets.length === 0) planets = config.planets;
+    if (current >= planets.length) current = 0;
+    renderPlanet();
+    buildTicker();
+  }
+}, 60000);
+
+renderPlanet();
+restartAuto();
+</script>
+</body>
+</html>
