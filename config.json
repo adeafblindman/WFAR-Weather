@@ -13368,8 +13368,8 @@
       "biome": "moon",
       "faction": "Illuminate",
       "color": "#9a9a9a",
-      "icon": "",
-      "displayed": true,
+      "icon": "🪐",
+      "displayed": false,
       "forecast": [
         {
           "date": "2026-08-29",
