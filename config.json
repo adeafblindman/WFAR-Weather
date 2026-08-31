@@ -768,7 +768,7 @@
       "biome": "scorched-moor",
       "faction": "Illuminate",
       "color": "#4a5a3a",
-      "icon": "🪐",
+      "icon": "",
       "displayed": true,
       "forecast": [
         {
@@ -13369,7 +13369,7 @@
       "biome": "moon",
       "faction": "Illuminate",
       "color": "#9a9a9a",
-      "icon": "🪐",
+      "icon": "",
       "displayed": false,
       "forecast": [
         {
@@ -17256,7 +17256,7 @@
       "biome": "ethereal-jungle",
       "faction": "Automaton",
       "color": "#5a3f8f",
-      "icon": "🪐",
+      "icon": "",
       "displayed": true,
       "forecast": [
         {
