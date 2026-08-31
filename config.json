@@ -765,69 +765,70 @@
     {
       "id": "alaraph",
       "name": "Alaraph",
-      "biome": "basic-swamp",
-      "faction": null,
+      "biome": "scorched-moor",
+      "faction": "Illuminate",
       "color": "#4a5a3a",
-      "icon": "",
-      "displayed": false,
+      "icon": "🪐",
+      "displayed": true,
       "forecast": [
         {
           "date": "2026-08-29",
-          "condition": "Heavy Fog",
-          "temp": 23,
-          "low": 3,
-          "severity": "Low",
-          "risk": 15
+          "condition": "Clear & Scorched",
+          "temp": 38,
+          "low": 20,
+          "severity": "High",
+          "risk": 58
         },
         {
           "date": "2026-08-30",
-          "condition": "Heavy Fog",
-          "temp": 24,
-          "low": 8,
-          "severity": "Moderate",
-          "risk": 35
+          "condition": "Ashfall",
+          "temp": 41,
+          "low": 28,
+          "severity": "Extreme",
+          "risk": 71
         },
         {
           "date": "2026-08-31",
-          "condition": "Humid & Overcast",
-          "temp": 22,
-          "low": 9,
+          "condition": "Ember Gusts",
+          "temp": 41,
+          "low": 32,
           "severity": "Low",
-          "risk": 11
+          "risk": 17
         },
         {
           "date": "2026-09-01",
-          "condition": "Humid & Overcast",
-          "temp": 29,
-          "low": 20,
-          "severity": "Moderate",
-          "risk": 32
+          "condition": "Ashfall",
+          "temp": 40,
+          "low": 25,
+          "severity": "Low",
+          "risk": 18
         },
         {
           "date": "2026-09-02",
-          "condition": "Downpour",
-          "temp": 20,
-          "low": 14,
-          "severity": "Low",
-          "risk": 20
+          "condition": "Clear & Scorched",
+          "temp": 38,
+          "low": 24,
+          "severity": "Moderate",
+          "risk": 41
         },
         {
           "date": "2026-09-03",
-          "condition": "Humid & Overcast",
-          "temp": 22,
-          "low": 6,
-          "severity": "Moderate",
-          "risk": 37
+          "condition": "Ember Gusts",
+          "temp": 39,
+          "low": 32,
+          "severity": "Low",
+          "risk": 13
         },
         {
           "date": "2026-09-04",
-          "condition": "Thunderstorms",
-          "temp": 24,
-          "low": 12,
+          "condition": "Clear & Scorched",
+          "temp": 41,
+          "low": 30,
           "severity": "Low",
-          "risk": 18
+          "risk": 15
         }
-      ]
+      ],
+      "backgroundImage": null
     },
     {
       "id": "alathfar-xi",
@@ -1975,7 +1976,7 @@
       "faction": "Terminid",
       "color": "#a3572f",
       "icon": "",
-      "displayed": true,
+      "displayed": false,
       "forecast": [
         {
           "date": "2026-08-29",
@@ -9684,7 +9685,7 @@
       "faction": null,
       "color": "#6b8a4e",
       "icon": "",
-      "displayed": true,
+      "displayed": false,
       "forecast": [
         {
           "date": "2026-08-29",
@@ -17253,10 +17254,10 @@
       "id": "zefia",
       "name": "Zefia",
       "biome": "ethereal-jungle",
-      "faction": null,
+      "faction": "Automaton",
       "color": "#5a3f8f",
-      "icon": "",
-      "displayed": false,
+      "icon": "🪐",
+      "displayed": true,
       "forecast": [
         {
           "date": "2026-08-29",
@@ -17314,7 +17315,8 @@
           "severity": "Low",
           "risk": 14
         }
-      ]
+      ],
+      "backgroundImage": null
     },
     {
       "id": "zegema-paradise",
