@@ -87,7 +87,7 @@ body{
   white-space:nowrap;
   padding-left:100%;
   animation:ticker 26s linear infinite;
-  font-size:10.5px;
+  font-size:20px;
   color:rgba(255,255,255,0.55);
   font-family:'Inter',sans-serif;
   letter-spacing:.03em;
