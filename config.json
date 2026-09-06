@@ -98,7 +98,7 @@
       "faction": "Terminid",
       "color": "#6b8a4e",
       "icon": "",
-      "displayed": true,
+      "displayed": false,
       "forecast": [
         {
           "date": "2026-08-29",
@@ -768,7 +768,7 @@
       "biome": "scorched-moor",
       "faction": "Illuminate",
       "color": "#4a5a3a",
-      "icon": "",
+      "icon": "🪐",
       "displayed": true,
       "forecast": [
         {
@@ -1976,7 +1976,7 @@
       "faction": "Terminid",
       "color": "#a3572f",
       "icon": "",
-      "displayed": false,
+      "displayed": true,
       "forecast": [
         {
           "date": "2026-08-29",
@@ -2178,7 +2178,7 @@
       "faction": "Terminid",
       "color": "#3f9f8a",
       "icon": "",
-      "displayed": true,
+      "displayed": false,
       "forecast": [
         {
           "date": "2026-08-29",
@@ -6531,10 +6531,10 @@
       "id": "heeth",
       "name": "Heeth",
       "biome": "icy-glaciers",
-      "faction": null,
+      "faction": "Terminid",
       "color": "#bfe4ef",
-      "icon": "",
-      "displayed": false,
+      "icon": "🪐",
+      "displayed": true,
       "forecast": [
         {
           "date": "2026-08-29",
@@ -6592,7 +6592,8 @@
           "severity": "Low",
           "risk": 13
         }
-      ]
+      ],
+      "backgroundImage": null
     },
     {
       "id": "hellmire",
@@ -7806,7 +7807,7 @@
       "biome": "scorched-moor",
       "faction": "Illuminate",
       "color": "#a3572f",
-      "icon": "",
+      "icon": "🪐",
       "displayed": true,
       "forecast": [
         {
@@ -9081,7 +9082,7 @@
       "faction": "Terminid",
       "color": "#3f9f8a",
       "icon": "",
-      "displayed": true,
+      "displayed": false,
       "forecast": [
         {
           "date": "2026-08-29",
@@ -9682,10 +9683,10 @@
       "id": "matar-bay",
       "name": "Matar Bay",
       "biome": "plains",
-      "faction": null,
+      "faction": "Automaton",
       "color": "#6b8a4e",
-      "icon": "",
-      "displayed": false,
+      "icon": "🪐",
+      "displayed": true,
       "forecast": [
         {
           "date": "2026-08-29",
@@ -9743,7 +9744,8 @@
           "severity": "Extreme",
           "risk": 73
         }
-      ]
+      ],
+      "backgroundImage": null
     },
     {
       "id": "meissa",
@@ -13369,8 +13371,8 @@
       "biome": "moon",
       "faction": "Illuminate",
       "color": "#9a9a9a",
-      "icon": "",
-      "displayed": false,
+      "icon": "🪐",
+      "displayed": true,
       "forecast": [
         {
           "date": "2026-08-29",
@@ -17257,7 +17259,7 @@
       "faction": "Automaton",
       "color": "#5a3f8f",
       "icon": "",
-      "displayed": true,
+      "displayed": false,
       "forecast": [
         {
           "date": "2026-08-29",
