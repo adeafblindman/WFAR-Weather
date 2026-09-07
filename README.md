@@ -15,12 +15,18 @@ console for managing planets, weather, and colors.
 - `style.css` — shared "Super Earth broadcast" styling for both pages.
 
 ## Custom icons & backgrounds
+- **Planet icons default to faction emblems**: if a planet has no custom
+  icon set, its icon is automatically the SVG for its Faction Activity
+  (Terminid / Automaton / Illuminate), pulled from `/icons`. Planets with
+  no reported faction activity get the Super Earth emblem. Setting a
+  custom icon on a planet (emoji or upload) always overrides this.
 - **Weather icons**: every forecast condition is automatically sorted into
   one of 8 categories (Clear, Cloudy, Storm, Rain, Snow/Ice, Fog, Hazard,
   Wind). In admin → **Icons, BG & Timer**, you can upload a custom image to
   replace any category's default emoji, or reset it back.
-- **Planet icon**: each planet's icon (shown next to its name) can be a
-  typed emoji or an uploaded image, set per-planet in the Planets tab.
+- **Custom icon library**: also in that tab, upload any number of extra
+  weather icons with a label, then assign each one to a category whenever
+  you're ready — handy for stockpiling icons before deciding where they go.
 - **Backgrounds**: set a global background image (admin → Icons, BG &
   Timer) used behind the forecast card by default, and/or a per-planet
   background image (Planets tab) that overrides it for that one planet.
@@ -28,6 +34,21 @@ console for managing planets, weather, and colors.
 - Uploaded images are stored as embedded base64 data in this browser's
   local storage — keep them reasonably small, since browsers typically cap
   local storage around 5–10MB total.
+
+## Managing a large planet roster
+The Planets tab has tools for handling the full 250+ planet roster:
+- A **filter box** narrows the list by name, biome, or faction.
+- **Show All Planets** / **Hide All Planets** buttons bulk-toggle visibility
+  on the whole roster in one click.
+- The **"Toggle all shown below"** checkbox bulk-toggles just the planets
+  currently matching the filter — e.g. filter to a faction, then uncheck
+  it to hide only those from the outlook page.
+
+## Ticker text
+Admin → **Backup** has a read-only **Ticker Text** field showing the same
+scrolling summary line the outlook page displays (one line per displayed
+planet's current-day forecast). Hit Refresh after editing planets or
+forecasts, then Copy to paste it into another project.
 
 ## Deploying to GitHub Pages
 1. Push all four files to the root of a repo (or a `/docs` folder, matching

@@ -120,7 +120,7 @@ const SEVERITY_WEIGHTS = [0.4, 0.32, 0.2, 0.08];
 
 /* ---------- Default planet roster ---------- */
 const DEFAULT_PLANETS = [
-  { id: "super earth", name: "Super Earth", biome: "metropolis", faction: "Super Earth", color: "#3e5ca3", icon: "/icons/SuperEarth.svg", displayed: true },
+  { id: "super earth", name: "Super Earth", biome: "super-earth-metropolis", faction: "None Reported", color: "#3e5ca3", icon: "icons/SuperEarth.svg", displayed: true },
   /* ---- Full Helldivers 2 planet roster (auto-added, alphabetical) ---- */
   { id: "acamar-iv", name: "Acamar IV", biome: "plains", faction: null, color: "#6b8a4e", icon: "", displayed: false },
   { id: "achernar-secundus", name: "Achernar Secundus", biome: "plains", faction: null, color: "#6b8a4e", icon: "", displayed: false },
@@ -446,10 +446,14 @@ function iconFor(condition, config) {
   return overrides[cat] || DEFAULT_CATEGORY_ICONS[cat] || "🌡️";
 }
 
-/* Detects whether an icon value is an image (uploaded data-URL or a
-   direct image URL) versus a plain emoji/text glyph. */
+/* Detects whether an icon value is an image (uploaded data-URL, a
+   direct image URL, or a relative/absolute path ending in an image
+   extension — e.g. the faction icons in /icons) versus a plain
+   emoji/text glyph. */
 function isImageValue(v) {
-  return typeof v === "string" && (v.startsWith("data:image") || /^https?:\/\/.+\.(png|jpe?g|gif|webp|svg)(\?.*)?$/i.test(v));
+  if (typeof v !== "string" || !v) return false;
+  if (v.startsWith("data:image")) return true;
+  return /\.(png|jpe?g|gif|webp|svg)(\?.*)?$/i.test(v);
 }
 
 /* Renders an icon value (emoji or image) as HTML, for shared use by
@@ -459,6 +463,42 @@ function renderIconHTML(value, cls) {
   cls = cls || "";
   if (isImageValue(value)) return `<img class="${cls}" src="${value}" alt="">`;
   return `<span class="${cls} icon-emoji">${value}</span>`;
+}
+
+/* ---------- Faction-based planet icons ----------
+   Files live in /icons alongside index.html / admin.html. A planet's
+   icon defaults to its faction's emblem; setting a custom icon (emoji
+   or uploaded image) on the planet always overrides this. */
+const FACTION_ICONS = {
+  "Terminid": "icons/terminids.svg",
+  "Automaton": "icons/automatons.svg",
+  "Illuminate": "icons/Illuminates.svg",
+};
+const FACTION_ICON_DEFAULT = "icons/SuperEarth.svg"; // no/unknown faction activity
+
+function factionIconFor(faction) {
+  return FACTION_ICONS[faction] || FACTION_ICON_DEFAULT;
+}
+
+/* The icon value actually used to represent a planet: its own custom
+   icon if one is set, otherwise its faction's emblem. */
+function planetIconFor(planet) {
+  if (planet && planet.icon) return planet.icon;
+  return factionIconFor(planet && planet.faction);
+}
+
+/* ---------- Ticker text ----------
+   Builds the same scrolling summary line index.html shows, as plain
+   text — shared so the admin console can offer it for copy/paste. */
+function buildTickerText(config) {
+  const planets = (config.planets || []).filter((p) => p.displayed !== false);
+  const list = planets.length ? planets : (config.planets || []);
+  const bits = list.map((p) => {
+    const t = p.forecast && p.forecast[0];
+    if (!t) return `${p.name.toUpperCase()}: NO DATA`;
+    return `${p.name.toUpperCase()}: ${t.condition.toUpperCase()} ${t.temp}°/${t.low}° [${t.risk}% RISK]`;
+  });
+  return bits.join("     //     ");
 }
 
 /* Reads a File object (from an <input type=file>) as a base64 data URL. */
@@ -531,6 +571,7 @@ function normalizeConfig(raw) {
   let dirty = false;
   if (!raw.settings) { raw.settings = { ...DEFAULT_SETTINGS }; dirty = true; }
   if (!raw.icons) { raw.icons = { ...DEFAULT_CATEGORY_ICONS }; dirty = true; }
+  if (!raw.customIcons) { raw.customIcons = {}; dirty = true; }
   if (!raw.theme) { raw.theme = { ...DEFAULT_THEME }; dirty = true; }
   (raw.planets || []).forEach((p) => {
     if (!BIOMES[p.biome]) { p.biome = "desert-dunes"; dirty = true; }
@@ -604,7 +645,7 @@ const Store = {
       ...p,
       forecast: generateForecast(p.biome, today, 7),
     }));
-    return { theme: { ...DEFAULT_THEME }, settings: { ...DEFAULT_SETTINGS }, icons: { ...DEFAULT_CATEGORY_ICONS }, planets };
+    return { theme: { ...DEFAULT_THEME }, settings: { ...DEFAULT_SETTINGS }, icons: { ...DEFAULT_CATEGORY_ICONS }, customIcons: {}, planets };
   },
 
   save(config) {

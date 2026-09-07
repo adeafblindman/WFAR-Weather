@@ -835,7 +835,7 @@
       "biome": "basic-swamp",
       "faction": "Illuminate",
       "color": "#4a5a3a",
-      "icon": "🪐",
+      "icon": "",
       "displayed": true,
       "forecast": [
         {
@@ -1975,7 +1975,7 @@
       "biome": "ethereal-jungle",
       "faction": "Terminid",
       "color": "#6b8a4e",
-      "icon": "🪐",
+      "icon": "",
       "displayed": true,
       "forecast": [
         {
@@ -6331,7 +6331,7 @@
       "biome": "icy-glaciers",
       "faction": "Terminid",
       "color": "#bfe4ef",
-      "icon": "🪐",
+      "icon": "",
       "displayed": true,
       "forecast": [
         {
@@ -7471,7 +7471,7 @@
       "biome": "scorched-moor",
       "faction": "Illuminate",
       "color": "#a3572f",
-      "icon": "🪐",
+      "icon": "",
       "displayed": true,
       "forecast": [
         {
@@ -9281,7 +9281,7 @@
       "biome": "plains",
       "faction": "Automaton",
       "color": "#6b8a4e",
-      "icon": "🪐",
+      "icon": "",
       "displayed": true,
       "forecast": [
         {
@@ -12833,7 +12833,7 @@
       "biome": "moon",
       "faction": "Illuminate",
       "color": "#9a9a9a",
-      "icon": "🪐",
+      "icon": "",
       "displayed": true,
       "forecast": [
         {

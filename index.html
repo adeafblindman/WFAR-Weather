@@ -100,7 +100,7 @@ function renderPlanet(){
   const p = planets[current];
   if (!p) return;
 
-  document.getElementById("planetIcon").innerHTML = renderIconHTML(p.icon, "");
+  document.getElementById("planetIcon").innerHTML = renderIconHTML(planetIconFor(p), "");
   document.getElementById("planetName").textContent = p.name.toUpperCase();
   document.getElementById("biomeTag").textContent = ((BIOMES[p.biome]||{}).label || p.biome).toUpperCase();
   document.getElementById("factionTag").textContent = (p.faction || "UNKNOWN").toUpperCase() + " ACTIVITY";
@@ -163,11 +163,7 @@ setInterval(tickClock, 1000);
 tickClock();
 
 function buildTicker(){
-  const bits = planets.map(p=>{
-    const t = p.forecast[0];
-    return `${p.name.toUpperCase()}: ${t.condition.toUpperCase()} ${t.temp}°/${t.low}° [${t.risk}% RISK]`;
-  });
-  document.getElementById("ticker").textContent = bits.join("     //     ");
+  document.getElementById("ticker").textContent = buildTickerText(config);
 }
 buildTicker();
 
