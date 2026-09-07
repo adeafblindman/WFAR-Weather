@@ -150,7 +150,7 @@ const DEFAULT_PLANETS = [
   { id: "bashyr", name: "Bashyr", biome: "basic-swamp", faction: null, color: "#4a5a3a", icon: "", displayed: false },
   { id: "basquine-viii", name: "Basquine VIII", biome: "autumn-forest", faction: null, color: "#b5722f", icon: "", displayed: false },
   { id: "bellatrix", name: "Bellatrix", biome: "plains", faction: null, color: "#6b8a4e", icon: "", displayed: false },
-  { id: "bekvam III", name: "Bekvam III", biome: "ethereal jungle", faction: null, color: "#6b8a4e", icon: "", displayed: false },
+  { id: "bekvam-iii", name: "Bekvam III", biome: "ethereal jungle", faction: null, color: "#6b8a4e", icon: "", displayed: false },
   { id: "blistica", name: "Blistica", biome: "scorched-moor", faction: null, color: "#a3572f", icon: "", displayed: false },
   { id: "bore-rock", name: "Bore Rock", biome: "scorched-moor", faction: null, color: "#a3572f", icon: "", displayed: false },
   { id: "borea", name: "Borea", biome: "icy-glaciers", faction: null, color: "#bfe4ef", icon: "", displayed: false },
