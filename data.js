@@ -120,20 +120,7 @@ const SEVERITY_WEIGHTS = [0.4, 0.32, 0.2, 0.08];
 
 /* ---------- Default planet roster ---------- */
 const DEFAULT_PLANETS = [
-  { id: "malevelon-creek", name: "Malevelon Creek", biome: "basic-swamp", faction: "Terminid", color: "#3ea34d", icon: "", displayed: true },
-  { id: "hellmire", name: "Hellmire", biome: "magma-desert", faction: "Automaton", color: "#e0552b", icon: "", displayed: true },
-  { id: "vernen-wells", name: "Vernen Wells", biome: "desert-dunes", faction: "Terminid", color: "#d1a24a", icon: "", displayed: true },
-  { id: "fenrir-iii", name: "Fenrir III", biome: "icy-glaciers", faction: "Automaton", color: "#8fd3e8", icon: "", displayed: true },
-  { id: "moradesh", name: "Moradesh", biome: "acidic-badlands", faction: "Terminid", color: "#a4d24a", icon: "", displayed: true },
-  { id: "tien-kwan", name: "Tien Kwan", biome: "plains", faction: "Automaton", color: "#b09a76", icon: "", displayed: true },
-  { id: "crimsica", name: "Crimsica", biome: "haunted-swamp", faction: "Terminid", color: "#6b8a4e", icon: "", displayed: true },
-  { id: "fori-prime", name: "Fori Prime", biome: "hive-world", faction: "Terminid", color: "#8fbf3f", icon: "", displayed: true },
-  { id: "draupnir-ridge", name: "Draupnir Ridge", biome: "crimson-forest", faction: "Automaton", color: "#c96a72", icon: "", displayed: true },
-  { id: "iridica-luna", name: "Iridica Luna", biome: "moon", faction: "Illuminate", color: "#c9c9c9", icon: "", displayed: false },
-  { id: "port-brackis", name: "Port Brackis", biome: "bleak-oasis", faction: "Illuminate", color: "#3f86b5", icon: "", displayed: false },
-  { id: "gorrund-drift", name: "Gorrund Drift", biome: "tundra", faction: "Automaton", color: "#87a498", icon: "", displayed: false },
-  { id: "veil-of-tarsis", name: "Veil of Tarsis", biome: "void-forest", faction: "Illuminate", color: "#7a6ab5", icon: "", displayed: false },
-
+  { id: "super earth", name: "Super Earth", biome: "metropolis", faction: "Super Earth", color: "#3e5ca3", icon: "/icons/SuperEarth.svg", displayed: true },
   /* ---- Full Helldivers 2 planet roster (auto-added, alphabetical) ---- */
   { id: "acamar-iv", name: "Acamar IV", biome: "plains", faction: null, color: "#6b8a4e", icon: "", displayed: false },
   { id: "achernar-secundus", name: "Achernar Secundus", biome: "plains", faction: null, color: "#6b8a4e", icon: "", displayed: false },
