@@ -262,7 +262,7 @@ function renderPlanetList(){
     const row = document.createElement("div");
     row.className = "planet-row" + (p.id===editingPlanetId ? " selected" : "");
     row.innerHTML = `
-      <div class="swatch" style="background:${p.color}22; border:1px solid ${p.color};">${renderIconHTML(p.icon || "🪐")}</div>
+      <div class="swatch" style="background:${p.color}22; border:1px solid ${p.color};">${renderIconHTML(p.icon || "")}</div>
       <div class="pname">${p.name}</div>
       <div class="pbiome">${(BIOMES[p.biome]||{}).label || p.biome}</div>
       <label style="display:flex;align-items:center;gap:5px;font-size:10px;margin:0;">
