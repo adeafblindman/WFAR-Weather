@@ -1976,7 +1976,7 @@
       "faction": "Terminid",
       "color": "#6b8a4e",
       "icon": "",
-      "displayed": true,
+      "displayed": false,
       "forecast": [
         {
           "date": "2026-09-06",
@@ -2309,10 +2309,10 @@
       "id": "brilliance",
       "name": "Brilliance",
       "biome": "desert-oasis",
-      "faction": null,
+      "faction": "Terminid",
       "color": "#3f9f8a",
       "icon": "",
-      "displayed": false,
+      "displayed": true,
       "forecast": [
         {
           "date": "2026-09-06",
@@ -2370,7 +2370,8 @@
           "severity": "Low",
           "risk": 14
         }
-      ]
+      ],
+      "backgroundImage": null
     },
     {
       "id": "brink-2",
@@ -6332,7 +6333,7 @@
       "faction": "Terminid",
       "color": "#bfe4ef",
       "icon": "",
-      "displayed": true,
+      "displayed": false,
       "forecast": [
         {
           "date": "2026-09-06",
@@ -7402,10 +7403,10 @@
       "id": "k",
       "name": "K",
       "biome": "magma-desert",
-      "faction": null,
+      "faction": "Automaton",
       "color": "#c94a2b",
       "icon": "",
-      "displayed": false,
+      "displayed": true,
       "forecast": [
         {
           "date": "2026-09-06",
@@ -7463,7 +7464,8 @@
           "severity": "Low",
           "risk": 15
         }
-      ]
+      ],
+      "backgroundImage": null
     },
     {
       "id": "karlia",
@@ -7472,7 +7474,7 @@
       "faction": "Illuminate",
       "color": "#a3572f",
       "icon": "",
-      "displayed": true,
+      "displayed": false,
       "forecast": [
         {
           "date": "2026-09-06",
@@ -9282,7 +9284,7 @@
       "faction": "Automaton",
       "color": "#6b8a4e",
       "icon": "",
-      "displayed": true,
+      "displayed": false,
       "forecast": [
         {
           "date": "2026-09-06",
@@ -16718,10 +16720,10 @@
       "id": "zzaniah-prime",
       "name": "Zzaniah Prime",
       "biome": "desert-cliffs",
-      "faction": null,
+      "faction": "Automaton",
       "color": "#c1863f",
       "icon": "",
-      "displayed": false,
+      "displayed": true,
       "forecast": [
         {
           "date": "2026-09-06",
@@ -16779,7 +16781,9 @@
           "severity": "Moderate",
           "risk": 32
         }
-      ]
+      ],
+      "backgroundImage": null
     }
-  ]
+  ],
+  "customIcons": {}
 }
